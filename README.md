@@ -1,2 +1,2 @@
-# Unix/LinuxBasicCommands
-Implementations of your own basic Unix/Linux commands.
+# MacOSBasicCommands
+Implementations of your own basic MacOS commands.
