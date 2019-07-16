@@ -2,7 +2,7 @@
 //  cp.c
 //  UnixInAction
 //
-//  Created by 陈子典 on 2019/7/16.
+//  Created by Arnold on 2019/7/16.
 //  Copyright © 2019 Arnold. All rights reserved.
 //
 
