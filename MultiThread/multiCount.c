@@ -5,6 +5,7 @@
 //  Created by Arnold on 2019/7/16.
 //  Copyright © 2019 Arnold. All rights reserved.
 //
+//  Calculate the total number of characters in two files in parallel.
 
 #include <stdio.h>
 #include <pthread.h>
