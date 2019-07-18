@@ -1,8 +1,8 @@
 //
-//  mutiCounter.c
+//  mutiCounter2.c
 //  UnixInAction
 //
-//  Created by Arnold on 2019/7/16.
+//  Created by Arnold on 2019/7/18.
 //  Copyright © 2019 Arnold. All rights reserved.
 //
 //  Calculate the total number of characters in two files in parallel.
@@ -11,37 +11,44 @@
 #include <pthread.h>
 #include <stdlib.h>
 
-int wordsInToall;
+void * counter(void *a);
+struct arg_set{
+    char* f;
+    int words;
+};
 
-void * counter(void *f);
 int main(int ac, char* av[])
 {
+    struct arg_set args1, args2;
     if(ac != 3)
     {
         printf("usage: %s file1 file2\n", av[0]);
         exit(1);
     }
-    wordsInToall = 0;
     pthread_t t1, t2;
-    pthread_create(&t1, NULL, counter, (void*)av[1]);
-    pthread_create(&t2, NULL, counter, (void*)av[2]);
+    args1.f = av[1];
+    args1.words = 0;
+    pthread_create(&t1, NULL, counter, (void*) &args1);
+    args2.f = av[2];
+    args2.words = 0;
+    pthread_create(&t2, NULL, counter, (void*) &args2);
     pthread_join(t1, NULL);
     pthread_join(t2, NULL);
-    printf("Total Words: %d\n", wordsInToall);
+    printf("Total Words: %d\n", args1.words + args2.words);
 }
 
-void *counter(void* f)
+void *counter(void* a)
 {
-    char *filename = (char *)f;
+    struct arg_set  * args = a;
     FILE* fp;
     
-    if((fp = fopen(filename, "r")) != NULL)
+    if((fp = fopen(args->f, "r")) != NULL)
     {
         while(getc(fp) != EOF)
-            wordsInToall++;
+            args->words++;
         fclose(fp);
     }
     else
-        perror(filename);
+        perror(args->f);
     return NULL;
 }
